@@ -1,9 +1,10 @@
-'use strict'
+'use strict';
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const access_token = 'EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD';
+const access_token = process.env.ACCESS_TOKEN;
 const app = express();
 
 app.set('port', 5000);
@@ -24,7 +25,7 @@ app.get('/webhook', function (req, res) {
 app.post('/webhook', function (req, res) {
   const webhook_event = req.body.entry[0];
   if (webhook_event.messaging) {
-    webhook_event.messaging.forEach(event => {
+    webhook_event.messaging.forEach((event) => {
       //console.log(webhook_event.messaging)
       handleEvent(event.sender.id, event);
     });
@@ -38,22 +39,21 @@ function handleMessage(senderId, event) {
   }
 }
 
-
 function defaultMessage(senderId) {
   const messageData = {
-    "recipient": {
-      "id": senderId
+    recipient: {
+      id: senderId,
     },
-    "message": {
-      "text": "Hola soy un bot de messenger y te invito a utilizar nuestro menú"
-    }
-  }
+    message: {
+      text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menú',
+    },
+  };
   callSendApi(messageData);
 }
 
 function handleEvent(senderId, event) {
   if (event.message) {
-    handleMessage(senderId, event.message)
+    handleMessage(senderId, event.message);
   } else if (event.postback) {
     handlePostback(senderId, event.postback.payload);
   }
@@ -62,7 +62,7 @@ function handleEvent(senderId, event) {
 function handlePostback(senderId, payload) {
   switch (payload) {
     case 'GET_STARTED_SACHIELBOT':
-      console.log(payload)
+      console.log(payload);
       break;
 
     default:
@@ -71,20 +71,26 @@ function handlePostback(senderId, payload) {
 }
 
 function callSendApi(response) {
-  request({
-    "uri": "https://graph.facebook.com/v8.0/me/messages/",
-    "qs": { "access_token": access_token },
-    "method": "POST",
-    "json": response
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
+  request(
+    {
+      uri: 'https://graph.facebook.com/v8.0/me/messages/',
+      qs: { access_token: access_token },
+      method: 'POST',
+      json: response,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log('message sent!');
+      } else {
+        console.error('Unable to send message:' + err);
+      }
+    },
+  );
 }
 
 app.listen(app.get('port'), function () {
-  console.log('Nuestro servidor está funcionando en el puerto', app.get('port'));
+  console.log(
+    'Nuestro servidor está funcionando en el puerto',
+    app.get('port'),
+  );
 });
