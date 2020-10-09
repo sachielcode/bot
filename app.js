@@ -9,11 +9,11 @@ const app = express();
 app.set('port', process.env.NODE_PORT);
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
+app.get('/bot/', function (req, res) {
   res.send('Hola Mundo');
 });
 
-app.get('/webhook', function (req, res) {
+app.get('/bot/webhook', function (req, res) {
   if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
     res.send(req.query['hub.challenge']);
   } else {
@@ -21,7 +21,7 @@ app.get('/webhook', function (req, res) {
   }
 });
 
-app.post('/webhook', function (req, res) {
+app.post('/bot/webhook', function (req, res) {
   const webhook_event = req.body.entry[0];
   if (webhook_event.messaging) {
     webhook_event.messaging.forEach((event) => {
