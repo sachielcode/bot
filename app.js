@@ -62,7 +62,7 @@ function defaultMessage(senderId) {
   senderActions(senderId);
   setTimeout(() => {
     callSendApi(messageData);
-  }, Math.floor(Math.random() * 10));
+  }, Math.floor(Math.random() * 3) * 1000);
 }
 
 function handleEvent(senderId, event) {
