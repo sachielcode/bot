@@ -55,7 +55,7 @@ function defaultMessage(senderId) {
           "content_type": "text",
           "title": "Acerca de",
           "payload": "ABOUT_PAYLOAD"
-        },
+        }
       ]
     },
   };
