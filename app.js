@@ -59,7 +59,10 @@ function defaultMessage(senderId) {
       ],
     },
   };
-  callSendApi(messageData);
+  senderActions(senderId);
+  setTimeout(() => {
+    callSendApi(messageData);
+  }, Math.floor(Math.random() * 3));
 }
 
 function handleEvent(senderId, event) {
@@ -79,6 +82,16 @@ function handlePostback(senderId, payload) {
     default:
       break;
   }
+}
+
+function senderActions(senderId, payload) {
+  const messageData = {
+    recipient: {
+      id: senderId,
+    },
+    sender_action: 'typing_on',
+  };
+  callSendApi(messageData);
 }
 
 function callSendApi(response) {
