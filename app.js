@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/webhook', function (req, res) {
-  if (req.query['hub.verify_token'] === 'parhikuni_token') {
+  if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
     res.send(req.query['hub.challenge']);
   } else {
     res.send('Parhikuni Bot no tienes permisos');
