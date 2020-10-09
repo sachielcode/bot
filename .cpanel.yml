@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/dparhiku/public_html/bot
+    - export DEPLOYPATH=/home/dparhiku/node_apps/bot
     - /bin/cp -R /home/dparhiku/repositories/bot/* $DEPLOYPATH
