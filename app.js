@@ -10,7 +10,7 @@ app.set('port', process.env.NODE_PORT);
 app.use(bodyParser.json());
 
 app.get('/bot/', function (req, res) {
-  res.send('Hola Mundo', access_token);
+  res.send(access_token);
 });
 
 app.get('/bot/webhook', function (req, res) {
