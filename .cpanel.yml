@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/dparhiku/public_html/snack
+    - export DEPLOYPATH=/home/dparhiku/public_html/bot
     - /bin/cp -R /home/dparhiku/repositories/bot/* $DEPLOYPATH
