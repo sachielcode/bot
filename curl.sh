@@ -1,7 +1,7 @@
 
 curl -X POST -H "Content-Type: application/json" -d '{
-  "get_started": {"payload": "GET_STARTED_SACHIELBOT"}
-}' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"
+  "get_started": {"payload": "INICIO_PAYLOAD"}
+}' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAF8qc8YEzuOF9Ez5vz5mTB1TfYyUk7IT03rfFOZBGonVXx3rB5QqmWqtefcPSiPCKj0hyAmwNbfQUZAgz2d8HMRWFtqJBo5rMuSejfTIte4vIJQbBLWuZA88VNVlvXGIS7iEQ7x2ZAbQ7ETZBEc6F0sRL6x1W2QZDZD"
 
 
 curl -X POST -H "Content-Type: application/json" -d '{
@@ -13,43 +13,43 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "text": "Hello {{user_first_name}} I am SachielBot! 🤖"
 }]
 }
-' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"
+' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAF8qc8YEzuOF9Ez5vz5mTB1TfYyUk7IT03rfFOZBGonVXx3rB5QqmWqtefcPSiPCKj0hyAmwNbfQUZAgz2d8HMRWFtqJBo5rMuSejfTIte4vIJQbBLWuZA88VNVlvXGIS7iEQ7x2ZAbQ7ETZBEc6F0sRL6x1W2QZDZD"
 
 
 curl -X POST -H "Content-Type: application/json" -d '{
 "persistent_menu": [{
   "locale": "default",
-  "composer_input_disabled": true,
+  "composer_input_disabled": false,
       "call_to_actions": [{
-          "title": "Acerca",
+          "title": "Paquetería",
           "type": "postback",
-          "payload": "ABOUT_PAYLOAD"
+          "payload": "PAQUETERIA_PAYLOAD"
         },
         {
           "title": "Sucursales",
           "type": "postback",
-          "payload": "LOCATIONS_PAYLOAD"
+          "payload": "SUCURSALES_PAYLOAD"
         },
         {
-          "title": "Ayuda",
+          "title": "Vacantes",
           "type": "postback",
           "payload": "HELP_PAYLOAD"
         },
         {
-          "title": "Contacto",
+          "title": "Clases de servicios",
           "type": "postback",
-          "payload": "CONTACT_PAYLOAD"
+          "payload": "SERVICIOS_PAYLOAD"
         },
         {
           "type": "web_url",
-          "title": "🐶 Pagina Web",
-          "url": "http://platzi.com/bots-messenger/",
+          "title": "🚌 Pagina Web",
+          "url": "https://parhikuni.com.mx/",
           "webview_height_ratio": "full"
         }
       ]
 }]
 }
-' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"
+' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAF8qc8YEzuOF9Ez5vz5mTB1TfYyUk7IT03rfFOZBGonVXx3rB5QqmWqtefcPSiPCKj0hyAmwNbfQUZAgz2d8HMRWFtqJBo5rMuSejfTIte4vIJQbBLWuZA88VNVlvXGIS7iEQ7x2ZAbQ7ETZBEc6F0sRL6x1W2QZDZD"
 
 
 
@@ -57,7 +57,7 @@ curl -X DELETE -H "Content-Type: application/json" -d '{
 "setting_type": "call_to_actions",
 "thread_state": "existing_thread"
 }
-' "https://graph.facebook.com/v8.0/me/thread_settings?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"
+' "https://graph.facebook.com/v8.0/me/thread_settings?access_token=EAAL7MZBPHbTsBAF8qc8YEzuOF9Ez5vz5mTB1TfYyUk7IT03rfFOZBGonVXx3rB5QqmWqtefcPSiPCKj0hyAmwNbfQUZAgz2d8HMRWFtqJBo5rMuSejfTIte4vIJQbBLWuZA88VNVlvXGIS7iEQ7x2ZAbQ7ETZBEc6F0sRL6x1W2QZDZD"
 
 
 
@@ -65,4 +65,4 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "whitelisted_domains":[
     "https://www.parhikuni.com/",
   ]
-}' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"
+}' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAF8qc8YEzuOF9Ez5vz5mTB1TfYyUk7IT03rfFOZBGonVXx3rB5QqmWqtefcPSiPCKj0hyAmwNbfQUZAgz2d8HMRWFtqJBo5rMuSejfTIte4vIJQbBLWuZA88VNVlvXGIS7iEQ7x2ZAbQ7ETZBEc6F0sRL6x1W2QZDZD"

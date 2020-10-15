@@ -39,15 +39,14 @@ app.post('/bot/webhook', function (req, res) {
 });
 
 function handleEvent(senderId, event) {
-  if (event.message.quick_reply) {
-    // Si selecciona una opción de respuesta rápida
-    handleQuickReply(senderId, event.message.quick_reply.payload);
-  } else if (event.message) {
-    //Si es un mensaje
+  if (event.message) {
     handleMessage(senderId, event.message);
   } else if (event.postback) {
-    // Si selecciona una opción del menú
     handlePostback(senderId, event.postback.payload);
+  } else if (event.message.quick_reply) {
+    handleQuickReply(senderId, event.message.quick_reply.payload);
+  } else {
+    defaultMessage(senderId);
   }
 }
 
@@ -63,30 +62,31 @@ function handleQuickReply(senderId, payload) {
     const destino = payloadArr[2];
     horarios.consultarHorarios(senderId, origen, destino);
     //callSendApi(horarios.consultarHorarios(senderId, origen, destino));
-  }else if(payload === 'DESTINOS_PAYLOAD'){
+  } else if (payload === 'DESTINOS_PAYLOAD') {
     callSendApi(destinos.listaDestinos(senderId));
-  }else if(payload === 'FACTURACION_PAYLOAD'){
+  } else if (payload === 'FACTURACION_PAYLOAD') {
     console.log('FACTURACION_PAYLOAD');
-  }else if(payload === 'CONTACTO_PAYLOAD'){
+  } else if (payload === 'CONTACTO_PAYLOAD') {
     console.log('CONTACTO_PAYLOAD');
-  }else if(payload === 'VACANTES_PAYLOAD'){
+  } else if (payload === 'VACANTES_PAYLOAD') {
     console.log('VACANTES_PAYLOAD');
-  }else if(payload === 'SERVICIOS_PAYLOAD'){
+  } else if (payload === 'SERVICIOS_PAYLOAD') {
     console.log('SERVICIOS_PAYLOAD');
-  }else if(payload === 'PAQUETERIA_PAYLOAD'){
+  } else if (payload === 'PAQUETERIA_PAYLOAD') {
     console.log('PAQUETERIA_PAYLOAD');
-  }else if(payload === 'TURISMO_PAYLOAD'){
+  } else if (payload === 'TURISMO_PAYLOAD') {
     console.log('TURISMO_PAYLOAD');
-  }else if(payload === 'AUDITORIA_PAYLOAD'){
+  } else if (payload === 'AUDITORIA_PAYLOAD') {
     console.log('AUDITORIA_PAYLOAD');
-  }else if(payload === 'INICIO_PAYLOAD'){
+  } else if (payload === 'INICIO_PAYLOAD') {
     defaultMessage(senderId);
   }
 }
 
 function handlePostback(senderId, payload) {
   switch (payload) {
-    case 'GET_STARTED_SACHIELBOT':
+    case 'INICIO_PAYLOAD':
+      defaultMessage(senderId);
       break;
 
     default:
@@ -95,7 +95,9 @@ function handlePostback(senderId, payload) {
 }
 
 function handleMessage(senderId, event) {
-  if (event.text) {
+  if (event.quick_reply) {
+    handleQuickReply(senderId, event.quick_reply.payload);
+  } else if (event.text) {
     // Mensaje por default
     defaultMessage(senderId);
   } else {
@@ -132,47 +134,29 @@ function defaultMessage(senderId) {
       quick_replies: [
         {
           content_type: 'text',
-          title: 'Horarios',
-          payload: 'HORARIOS_PAYLOAD',
+          title: 'Destinos',
+          payload: 'DESTINOS_PAYLOAD',
         },
         {
           content_type: 'text',
-          title: 'Comprar',
-          payload: 'ABOUT_PAYLOAD',
+          title: 'Horarios',
+          payload: 'HORARIOS_PAYLOAD',
         },
         {
           content_type: 'text',
           title: 'Facturación',
           payload: 'FACTURACION_PAYLOAD',
         },
-        {
-          content_type: 'text',
-          title: 'Destinos',
-          payload: 'DESTINOS_PAYLOAD',
-        },
+
         {
           content_type: 'text',
           title: 'Contacto',
           payload: 'CONTACTO_PAYLOAD',
         },
+
         {
           content_type: 'text',
-          title: 'Vacantes',
-          payload: 'VACANTES_PAYLOAD',
-        },
-        {
-          content_type: 'text',
-          title: 'Servicios',
-          payload: 'SERVICIOS_PAYLOAD',
-        },
-        {
-          content_type: 'text',
-          title: 'Paquetería',
-          payload: 'PAQUETERIA_PAYLOAD',
-        },
-        {
-          content_type: 'text',
-          title: 'Turismo',
+          title: 'Renta autobuses',
           payload: 'TURISMO_PAYLOAD',
         },
         {
