@@ -58,3 +58,11 @@ curl -X DELETE -H "Content-Type: application/json" -d '{
 "thread_state": "existing_thread"
 }
 ' "https://graph.facebook.com/v8.0/me/thread_settings?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"
+
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "whitelisted_domains":[
+    "https://www.parhikuni.com/",
+  ]
+}' "https://graph.facebook.com/v8.0/me/messenger_profile?access_token=EAAL7MZBPHbTsBAMsEh3ApZAbMujdEyJ3sMyme0HZCj5MzoZBVTmDeJCDwFtH6rTGRXWf0wYAdcfHgE8cZChHZA5EPpB6ZCh1yfDAy2kYEZC9PNky2XTuQiUlW8JOdgZA7uLqMhzZA5LZAjEepEywQqWXVAtZC8dgrna29yAjLetOR4upiAZDZD"

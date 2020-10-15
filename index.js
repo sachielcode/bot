@@ -61,7 +61,26 @@ function handleQuickReply(senderId, payload) {
   } else if (payloadArr[1] === 'DESTINO') {
     const origen = payloadArr[0];
     const destino = payloadArr[2];
-    callSendApi(horarios.consultarHorarios(senderId, origen, destino));
+    horarios.consultarHorarios(senderId, origen, destino);
+    //callSendApi(horarios.consultarHorarios(senderId, origen, destino));
+  }else if(payload === 'DESTINOS_PAYLOAD'){
+    callSendApi(destinos.listaDestinos(senderId));
+  }else if(payload === 'FACTURACION_PAYLOAD'){
+    console.log('FACTURACION_PAYLOAD');
+  }else if(payload === 'CONTACTO_PAYLOAD'){
+    console.log('CONTACTO_PAYLOAD');
+  }else if(payload === 'VACANTES_PAYLOAD'){
+    console.log('VACANTES_PAYLOAD');
+  }else if(payload === 'SERVICIOS_PAYLOAD'){
+    console.log('SERVICIOS_PAYLOAD');
+  }else if(payload === 'PAQUETERIA_PAYLOAD'){
+    console.log('PAQUETERIA_PAYLOAD');
+  }else if(payload === 'TURISMO_PAYLOAD'){
+    console.log('TURISMO_PAYLOAD');
+  }else if(payload === 'AUDITORIA_PAYLOAD'){
+    console.log('AUDITORIA_PAYLOAD');
+  }else if(payload === 'INICIO_PAYLOAD'){
+    defaultMessage(senderId);
   }
 }
 

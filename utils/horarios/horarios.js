@@ -1,15 +1,12 @@
-var mysql = require('mysql');
+const request = require('request');
+const emojis = require('../emojis/emojis');
+const destinos = require('./destinos');
 
 if (process.env.NODE_ENV == 'development') {
   require('dotenv').config();
 }
 
-var connection = mysql.createConnection({
-  host: process.env.DB_HORARIOS_HOST,
-  user: process.env.DB_HORARIOS_USER,
-  password: process.env.DB_HORARIOS_PASS,
-  database: process.env.DB_HORARIOS_NAME,
-});
+const access_token = process.env.ACCESS_TOKEN;
 
 exports.origenes = (senderId, origenes) => {
   let messageData = {
@@ -59,24 +56,101 @@ exports.destino = (senderId, origenes, origen) => {
   return messageData;
 };
 
-exports.consultarHorarios = (senderId, origen, destino) => {
+exports.consultarHorarios = async (senderId, origen, destino) => {
   let messageData = {
     recipient: {
       id: senderId,
     },
-    message: {},
+    message: {
+      attachment: {
+        type: 'template',
+        payload: {
+          template_type: 'button',
+          text: '',
+          buttons: [
+            {
+              type: 'web_url',
+              url: `https://www.parhikuni.com/demo/compra_fb2.php?origen=${origen}&destino=${destino}`,
+              title: 'Comprar',
+              webview_height_ratio: 'tall',
+              messenger_extensions: true,
+            },
+          ],
+        },
+      },
+      quick_replies: [
+        {
+          content_type: 'text',
+          title: 'Inicio',
+          payload: 'INICIO_PAYLOAD',
+        },
+      ],
+    },
   };
-  var query = `SELECT * FROM SIHorarios_pantalla WHERE aOficinaOrigen="${origen}" AND aOficinaDestino="${destino}"`;
-  // var insertedId = '';
-  // connection.query(query);
-  connection.query(query, (err, res) => {
-    if (err) throw err;
-    // insertedId = res.insertId;
-    console.log(res);
-    // console.log('Last insert ID:', res.insertId);
-    messageData.message = {
-      text: `Horarios de salidas de ${origen} hacia ${destino}`,
-    };
-    return messageData;
-  });
+
+  await request(
+    {
+      uri: 'https://parhikuni.com.mx/wsBot/wsBot.php',
+      qs: { origen, destino },
+      method: 'GET',
+    },
+    (err, res, body) => {
+      if (!err) {
+        const response = JSON.parse(res.body);
+        if (response.length === 0) {
+          messageData = {
+            recipient: {
+              id: senderId,
+            },
+            message: {
+              text: `Lo sentimos pero por el momento\n no hay salidas de ${destinos.oficinas(
+                origen,
+              )}\n hacia ${destinos.oficinas(destino)} 😅`,
+              quick_replies: [
+                {
+                  content_type: 'text',
+                  title: 'Inicio',
+                  payload: 'INICIO_PAYLOAD',
+                },
+              ],
+            },
+          };
+          callSendApi(messageData);
+        } else {
+          const corridas = response.map(
+            ({ hHoraSalida, aTipoServicio, nTarifa }) => {
+              emojis.reloj(hHoraSalida);
+              return `🕐  ${hHoraSalida}\n${emojis.colorServicio(
+                aTipoServicio,
+              )}  $${nTarifa}  ${emojis.servicio(aTipoServicio)} `;
+            },
+          );
+          messageData.message.attachment.payload.text = `🚌  ${destinos.oficinas(
+            origen,
+          )} - ${destinos.oficinas(destino)}\n\n${corridas.join('\n\n')}`;
+          callSendApi(messageData);
+        }
+      } else {
+        console.error('Unable to send message:' + err);
+      }
+    },
+  );
 };
+
+function callSendApi(response) {
+  request(
+    {
+      uri: 'https://graph.facebook.com/v8.0/me/messages/',
+      qs: { access_token: access_token },
+      method: 'POST',
+      json: response,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log('corridas sent!');
+      } else {
+        console.error('Unable to send message:' + err);
+      }
+    },
+  );
+}

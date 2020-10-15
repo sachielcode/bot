@@ -122,3 +122,64 @@ exports.destinos = (origen = 0) => {
       };
   }
 };
+
+exports.oficinas = (oficina) => {
+  switch (oficina) {
+    case 'MORE':
+      return 'Morelia';
+    case 'APAT':
+      return 'Apatzingán';
+    case 'CCAM':
+      return 'Cuatro Caminos';
+    case 'URUA':
+      return 'Uruapan';
+    case 'ARTE':
+      return 'Arteaga';
+    case 'COAL':
+      return 'Coalcomán';
+    case 'TEPA':
+      return 'Tepalcatepec';
+    case 'BUEN':
+      return 'Buenavista';
+    case 'LCAR':
+      return 'Lázaro Cárdenas';
+    case 'ZIHU':
+      return 'Zihuatanejo';
+    case 'IXTA':
+      return 'Ixtapa';
+
+    default:
+      break;
+  }
+};
+
+exports.listaDestinos = (senderId) => {
+  const messageData = {
+    recipient: {
+      id: senderId,
+    },
+    message: {
+      text: `
+✔ Morelia
+✔ Apatzingán
+✔ Arteaga
+✔ Coalcomán
+✔ Cuatro Caminos
+✔ Uruapan
+✔ Tepalcatepec
+✔ Buenavista
+✔ Lázaro Cárdenas
+✔ Zihuatanejo
+✔ Ixtapa
+  `,
+      quick_replies: [
+        {
+          content_type: 'text',
+          title: 'Inicio',
+          payload: 'INICIO_PAYLOAD',
+        },
+      ],
+    },
+  };
+  return messageData;
+};
