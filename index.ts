@@ -4,9 +4,9 @@ if (process.env.NODE_ENV == 'development') {
   require('dotenv').config();
 }
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const request = require('request');
+import express, { Request, Response } from 'express';
+import bodyParser  from 'body-parser';
+import request from 'request';
 const access_token = process.env.ACCESS_TOKEN;
 const app = express();
 
@@ -16,11 +16,11 @@ const horarios = require('./utils/horarios/horarios');
 app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json());
 
-app.get('/bot/', function (req, res) {
+app.get('/bot/', function (req: Request, res: Response) {
   res.send('Hola Mundo');
 });
 
-app.get('/bot/webhook', function (req, res) {
+app.get('/bot/webhook', function (req: Request,  res: Response) {
   if (req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
     res.send(req.query['hub.challenge']);
   } else { 
@@ -28,17 +28,17 @@ app.get('/bot/webhook', function (req, res) {
   }
 });
 
-app.post('/bot/webhook', function (req, res) {
+app.post('/bot/webhook', function (req: Request, res: Response) {
   const webhook_event = req.body.entry[0];
   if (webhook_event.messaging) {
-    webhook_event.messaging.forEach((event) => {
+    webhook_event.messaging.forEach((event: any) => {
       handleEvent(event.sender.id, event);
     });
   }
   res.sendStatus(200);
 });
 
-function handleEvent(senderId, event) {
+function handleEvent(senderId: Number, event: any) {
   if (event.message) {
     handleMessage(senderId, event.message);
   } else if (event.postback) {
@@ -50,7 +50,7 @@ function handleEvent(senderId, event) {
   }
 }
 
-function handleQuickReply(senderId, payload) {
+function handleQuickReply(senderId: Number, payload: string) {
   let payloadArr = payload.split('_');
   if (payload === 'HORARIOS_PAYLOAD') {
     callSendApi(horarios.origenes(senderId, destinos.destinos()));
@@ -83,7 +83,7 @@ function handleQuickReply(senderId, payload) {
   }
 }
 
-function handlePostback(senderId, payload) {
+function handlePostback(senderId: Number, payload: string) {
   switch (payload) {
     case 'INICIO_PAYLOAD':
       defaultMessage(senderId);
@@ -94,7 +94,7 @@ function handlePostback(senderId, payload) {
   }
 }
 
-function handleMessage(senderId, event) {
+function handleMessage(senderId: Number, event: any) {
   if (event.quick_reply) {
     handleQuickReply(senderId, event.quick_reply.payload);
   } else if (event.text) {
@@ -124,7 +124,7 @@ function handleMessage(senderId, event) {
   }
 }
 
-function defaultMessage(senderId) {
+function defaultMessage(senderId: Number) {
   const messageData = {
     recipient: {
       id: senderId,
@@ -173,7 +173,7 @@ function defaultMessage(senderId) {
   // }, Math.floor(Math.random() * 5) * 1000);
 }
 
-function senderActions(senderId, payload) {
+function senderActions(senderId: Number, payload: string) {
   const messageData = {
     recipient: {
       id: senderId,
@@ -183,15 +183,15 @@ function senderActions(senderId, payload) {
   callSendApi(messageData);
 }
 
-function callSendApi(response) {
+function callSendApi(response: any) {
   request(
-    {
+    <any>{
       uri: 'https://graph.facebook.com/v8.0/me/messages/',
       qs: { access_token: access_token },
       method: 'POST',
       json: response,
     },
-    (err, res, body) => {
+    (err: any, res: any, body: any) => {
       if (!err) {
         console.log('message sent!');
       } else {
@@ -205,5 +205,5 @@ app.listen(process.env.PORT, function () {
   console.log(
     'Nuestro servidor está funcionando en el puerto',
     process.env.PORT,
-  );
+  ); 
 });
