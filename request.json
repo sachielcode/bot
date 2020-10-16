@@ -1,0 +1,27 @@
+{ sender: { id: '3360641813983209' },
+  recipient: { id: '114577460409366' },
+  timestamp: 1602862951414,
+  message:
+   { mid:
+      'm__28mTxnVoFGz2IiC_DYr2KrTm7GvKovV_poOkzSq6lG2ItzzSC6R5TC9m6xXSQzbpfDg8qRoZoAkAfDZKeJM_Q',
+     text: 'asdasdasdas' 
+    } 
+}
+
+{ sender: 
+  { id: '3360641813983209' },
+  recipient: { id: '114577460409366' },
+  timestamp: 1602862979989,
+  message:
+   { mid:
+      'm_pO1GuDeCfD8ej9MU-nwd2KrTm7GvKovV_poOkzSq6lHwMWft317i1nwVIiOYgM8fB8s8UmtF8-BZQVX_Ul6Myg',
+     text: 'Horarios',
+     quick_reply: { payload: 'HORARIOS_PAYLOAD' } 
+   } 
+}
+
+{ sender: { id: '3360641813983209' },
+  recipient: { id: '114577460409366' },
+  timestamp: 1602863047324,
+  postback: { title: 'Paquetería', payload: 'PAQUETERIA_PAYLOAD' } 
+}

@@ -29,6 +29,7 @@ app.get('/bot/webhook', function (req, res) {
 });
 
 app.post('/bot/webhook', function (req, res) {
+
   const webhook_event = req.body.entry[0];
   if (webhook_event.messaging) {
     webhook_event.messaging.forEach((event) => {
@@ -51,6 +52,7 @@ function handleEvent(senderId, event) {
 }
 
 function handleQuickReply(senderId, payload) {
+  senderActions(senderId);
   let payloadArr = payload.split('_');
   if (payload === 'HORARIOS_PAYLOAD') {
     callSendApi(horarios.origenes(senderId, destinos.destinos()));
@@ -61,7 +63,6 @@ function handleQuickReply(senderId, payload) {
     const origen = payloadArr[0];
     const destino = payloadArr[2];
     horarios.consultarHorarios(senderId, origen, destino);
-    //callSendApi(horarios.consultarHorarios(senderId, origen, destino));
   } else if (payload === 'DESTINOS_PAYLOAD') {
     callSendApi(destinos.listaDestinos(senderId));
   } else if (payload === 'FACTURACION_PAYLOAD') {
@@ -78,6 +79,8 @@ function handleQuickReply(senderId, payload) {
     console.log('TURISMO_PAYLOAD');
   } else if (payload === 'AUDITORIA_PAYLOAD') {
     console.log('AUDITORIA_PAYLOAD');
+  } else if (payload === 'MAS_PAYLOAD') {
+    masOpciones(senderId);
   } else if (payload === 'INICIO_PAYLOAD') {
     defaultMessage(senderId);
   }
@@ -124,6 +127,47 @@ function handleMessage(senderId, event) {
   }
 }
 
+function masOpciones(senderId) {
+    const messageData = {
+    recipient: {
+      id: senderId,
+    },
+    message: {
+      text: 'Hola soy un bot de messenger y te invito a utilizar nuestro menú',
+      quick_replies: [
+        {
+          content_type: 'text',
+          title: 'Paquetería',
+          payload: 'PAQUETERIA_PAYLOAD',
+        },
+        {
+          content_type: 'text',
+          title: 'Sucursales',
+          payload: 'SUCURSALES_PAYLOAD',
+        },
+        {
+          content_type: 'text',
+          title: 'Clases de Servicios',
+          payload: 'SERVICIOS_PAYLOAD',
+        },
+        {
+          content_type: 'text',
+          title: 'Vacantes',
+          payload: 'VACANTES_PAYLOAD',
+        },
+        {
+          content_type: 'text',
+          title: 'Volver',
+          payload: 'INICIO_PAYLOAD',
+        },
+      ],
+    },
+  };
+  senderActions(senderId);
+  // setTimeout(() => {
+  callSendApi(messageData);
+}
+
 function defaultMessage(senderId) {
   const messageData = {
     recipient: {
@@ -134,26 +178,24 @@ function defaultMessage(senderId) {
       quick_replies: [
         {
           content_type: 'text',
-          title: 'Destinos',
-          payload: 'DESTINOS_PAYLOAD',
+          title: 'Horarios',
+          payload: 'HORARIOS_PAYLOAD',
         },
         {
           content_type: 'text',
-          title: 'Horarios',
-          payload: 'HORARIOS_PAYLOAD',
+          title: 'Destinos',
+          payload: 'DESTINOS_PAYLOAD',
         },
         {
           content_type: 'text',
           title: 'Facturación',
           payload: 'FACTURACION_PAYLOAD',
         },
-
         {
           content_type: 'text',
           title: 'Contacto',
           payload: 'CONTACTO_PAYLOAD',
         },
-
         {
           content_type: 'text',
           title: 'Renta autobuses',
@@ -164,16 +206,21 @@ function defaultMessage(senderId) {
           title: 'Equipaje Perdido',
           payload: 'AUDITORIA_PAYLOAD',
         },
+        {
+          content_type: 'text',
+          title: 'Más',
+          payload: 'MAS_PAYLOAD',
+        },
       ],
     },
   };
-  // senderActions(senderId);
+  senderActions(senderId);
   // setTimeout(() => {
   callSendApi(messageData);
   // }, Math.floor(Math.random() * 5) * 1000);
 }
 
-function senderActions(senderId, payload) {
+function senderActions(senderId) {
   const messageData = {
     recipient: {
       id: senderId,
