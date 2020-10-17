@@ -33,7 +33,14 @@ app.post('/bot/webhook', function (req, res) {
   const webhook_event = req.body.entry[0];
   if (webhook_event.messaging) {
     webhook_event.messaging.forEach((event) => {
-      handleEvent(event.sender.id, event);
+      request.post('http://destinosparhikuni.no-ip.org:8081/chat2/index.php', {form:event}, (err, res, body) => {
+            const response = res.body;
+            callSendApi(JSON.parse(response));
+      });
+       
+      //Request al 11
+      //handleEvent(event.sender.id, event);
+
     });
   }
   res.sendStatus(200);
@@ -239,6 +246,7 @@ function callSendApi(response) {
       json: response,
     },
     (err, res, body) => {
+      console.log(body)
       if (!err) {
         console.log('message sent!');
       } else {
